@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit manager</title>
+</head>
+<body>
+<h1>Edit manager</h1>
+<form action="/task/edit" method="post">
+    <input type="hidden" name="id" th:value="${task.id}">
+    <div>
+        <p>Title</p>
+        <label for="title"></label>
+        <input type="text" id="title" name="title" required th:value="${task.title}">
+    </div>
+    <div>
+        <p>Description</p>
+        <label for="description"></label>
+        <textarea id="description" name="description" required th:text="${task.description}"></textarea>
+    </div>
+    <div>
+        <p>Priority</p>
+        <label for="priority"></label>
+        <input type="number" id="priority" name="priority" required th:value="${task.priority}">
+    </div>
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>
