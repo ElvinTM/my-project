@@ -7,15 +7,12 @@
 <body>
 <h1>Task manager</h1>
 <table>
-    <thead>
     <tr>
         <th>ID</th>
         <th>Title</th>
         <th>Description</th>
         <th>Priority</th>
     </tr>
-    </thead>
-    <tbody>
     <tr th:each="task : ${tasks}">
         <td th:text="${task.id}"></td>
         <td th:text="${task.title}"></td>
@@ -26,7 +23,6 @@
             <a th:href="@{/task/delete/{id}(id=${task.id})}">delete</a>
         </td>
     </tr>
-    </tbody>
 </table>
 <a href="/task/create">create</a>
 </body>

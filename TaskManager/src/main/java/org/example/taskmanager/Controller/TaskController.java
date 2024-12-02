@@ -1,6 +1,9 @@
 package org.example.taskmanager.Controller;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.taskmanager.Model.Task;
+import org.example.taskmanager.Service.TaskService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,63 +15,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
+@Slf4j
 public class TaskController {
 
-    private final List<Task> tasks = new ArrayList<>();
+    private final TaskService taskService;
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("tasks", tasks);
+        model.addAttribute("tasks", taskService.findAll());
         return "index";
     }
 
     @GetMapping("/task/create")
-    public String add(Model model) {
+    public String addForm(Model model) {
         model.addAttribute("task", new Task());
         return "create";
     }
 
 
     @PostMapping("/task/create")
-    public String create(@ModelAttribute Task task) {
-        task.setId(System.currentTimeMillis());
-        tasks.add(task);
+    public String createTask(@ModelAttribute("task") Task task) {
+        taskService.save(task);
         return "redirect:/";
     }
 
     @GetMapping("/task/edit/{id}")
     public String editForm(@PathVariable long id, Model model) {
-        Task task = findById(id);
-        if (task != null) {
-            model.addAttribute("task", task);
-            return "edit";
-        }
-        return "redirect:/";}
+        Task task = taskService.findById(id);
+        model.addAttribute("task", task);
+        return "edit";
+    }
 
-    @PostMapping("/task/edit")
-    public String editTask(@ModelAttribute Task task) {
-        Task existing = findById(task.getId());
-        if (existing != null) {
-            existing.setTitle(task.getTitle());
-            existing.setDescription(task.getDescription());
-            existing.setPriority(task.getPriority());
-        }
+    @PostMapping("/task/edit/{id}")
+    public String editTask(@PathVariable long id, @ModelAttribute("task") Task task) {
+        task.setId(id);
+        taskService.update(task);
         return "redirect:/";
     }
 
     @GetMapping("/task/delete/{id}")
     public String delete(@PathVariable long id) {
-        Task task = findById(id);
-        if (task != null) {
-            tasks.remove(task);
-        }
+        taskService.deleteById(id);
         return "redirect:/";
-    }
-
-    private Task findById(long id) {
-        return tasks.stream()
-                .filter(t -> t.getId() ==id)
-                .findFirst()
-                .orElse(null);
     }
 }

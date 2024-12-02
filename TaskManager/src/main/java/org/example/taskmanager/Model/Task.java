@@ -1,8 +1,12 @@
 package org.example.taskmanager.Model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Task {
 
     public long id;
@@ -11,5 +15,5 @@ public class Task {
 
     public String description;
 
-    public String priority;
+    public int priority;
 }
