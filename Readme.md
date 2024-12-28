@@ -5,3 +5,5 @@ ___
 ### Мои проекты
 
 [TaskManager](https://github.com/ElvinTM/my-project/blob/master/TaskManager.md) - веб приложения на основе ___CRUD___ для введения задач.
+
+[CurrencyConverter](https://github.com/ElvinTM/my-project/blob/master/CurrencyConverter.md) - конвертер валют.
